@@ -40,6 +40,9 @@
            // Perform authentication logic here
            if (inputemail ===  email && inputpassword === password) {
               alert('Login successful');
+              analytics.track('Login Successful Alert', {
+                 email: inputemail
+              });
               // Redirect the user to the dashboard page
               window.location.href = 'success.html';
             } else {
