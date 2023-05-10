@@ -18,6 +18,7 @@
          const logoutBtn = document.querySelector('#logout-btn');
          logoutBtn.addEventListener('click', function() {
             localStorage.clear(); // Clear all data in local storage
+            analytics.reset();
             window.location.href = 'login.html'; // Redirect to the login page
          });
       </script>
