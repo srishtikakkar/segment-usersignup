@@ -34,9 +34,6 @@ form.addEventListener('submit', function(event) {
     button_text: "submit"
    })
 
-   // Send the form data to the server for processing (not implemented in this example)
-   // ...
-
    // Redirect the user to the login page
    window.location.href = 'login.html';
 });
