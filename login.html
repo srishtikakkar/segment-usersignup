@@ -44,6 +44,12 @@
 
          // Perform authentication logic here
          if (inputemail === email && inputpassword === password) {
+            
+            analytics.track('Button Clicked',{
+               button_type:'Login',
+               button_text:'submit'
+            });
+            
             alert('Login successful');
             
             analytics.track('Alert Displayed',{
