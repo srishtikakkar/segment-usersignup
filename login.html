@@ -1,57 +1,63 @@
 <!DOCTYPE html>
 <html>
-   <head>
-      <title>Login</title>
-      <script>
-  !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on","addSourceMiddleware","addIntegrationMiddleware","setAnonymousId","addDestinationMiddleware"];analytics.factory=function(e){return function(){var t=Array.prototype.slice.call(arguments);t.unshift(e);analytics.push(t);return analytics}};for(var e=0;e<analytics.methods.length;e++){var key=analytics.methods[e];analytics[key]=analytics.factory(key)}analytics.load=function(key,e){var t=document.createElement("script");t.type="text/javascript";t.async=!0;t.src="https://cdn.segment.com/analytics.js/v1/" + key + "/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(t,n);analytics._loadOptions=e};analytics._writeKey="wvwAdj28GcUK0TPhfPu2eJgCv1Y7vVAC";;analytics.SNIPPET_VERSION="4.15.3";
-  analytics.load("wvwAdj28GcUK0TPhfPu2eJgCv1Y7vVAC");
-  analytics.page("Login");
-  }}();
-</script>
-   </head>
-   <body>
-      <h1>Login</h1>
-      <form id="login-form">
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br>
-     
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required><br>
-     
-        <button type="submit">Login</button>
-      </form>
 
-      <script>
-        // Retrieve the user ID from local storage
-        const userID = localStorage.getItem('userID');
-        const email = localStorage.getItem('email');
-        const password = localStorage.getItem('password');
-        console.log('User ID:', userID);
+<head>
+   <title>Login</title>
+   <script>
+      !function () {
+         var analytics = window.analytics = window.analytics || []; if (!analytics.initialize) if (analytics.invoked) window.console && console.error && console.error("Segment snippet included twice."); else {
+            analytics.invoked = !0; analytics.methods = ["trackSubmit", "trackClick", "trackLink", "trackForm", "pageview", "identify", "reset", "group", "track", "ready", "alias", "debug", "page", "once", "off", "on", "addSourceMiddleware", "addIntegrationMiddleware", "setAnonymousId", "addDestinationMiddleware"]; analytics.factory = function (e) { return function () { var t = Array.prototype.slice.call(arguments); t.unshift(e); analytics.push(t); return analytics } }; for (var e = 0; e < analytics.methods.length; e++) { var key = analytics.methods[e]; analytics[key] = analytics.factory(key) } analytics.load = function (key, e) { var t = document.createElement("script"); t.type = "text/javascript"; t.async = !0; t.src = "https://cdn.segment.com/analytics.js/v1/" + key + "/analytics.min.js"; var n = document.getElementsByTagName("script")[0]; n.parentNode.insertBefore(t, n); analytics._loadOptions = e }; analytics._writeKey = "wvwAdj28GcUK0TPhfPu2eJgCv1Y7vVAC";; analytics.SNIPPET_VERSION = "4.15.3";
+            analytics.load("wvwAdj28GcUK0TPhfPu2eJgCv1Y7vVAC");
+            analytics.page("Login");
+         }
+      }();
+   </script>
+</head>
 
-        // Handle the form submission
-        const form = document.querySelector('#login-form');
-        form.addEventListener('submit', function(event) {
-           event.preventDefault(); // Prevent the default form submission behavior
+<body>
+   <h1>Login</h1>
+   <form id="login-form">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required><br>
 
-           // Get the input values
-           const inputemail = document.querySelector('#email').value;
-           const inputpassword = document.querySelector('#password').value;
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required><br>
 
-           // Perform authentication logic here
-           if (inputemail ===  email && inputpassword === password) {
-              alert('Login successful');
-              analytics.track('Login Successful Alert', {
-                 email: inputemail,
-                 type: "Login Succesful"
-              });
-              // Redirect the user to the dashboard page
-              window.location.href = 'success.html';
-            } else {
-                alert('Invalid email or password');
-            }
-        });
-     </script>
+      <button type="submit">Login</button>
+   </form>
+
+   <script>
+      // Retrieve the user ID from local storage
+      const userID = localStorage.getItem('userID');
+      const email = localStorage.getItem('email');
+      const password = localStorage.getItem('password');
+      console.log('User ID:', userID);
+
+      // Handle the form submission
+      const form = document.querySelector('#login-form');
+      form.addEventListener('submit', function (event) {
+         event.preventDefault(); // Prevent the default form submission behavior
+
+         // Get the input values
+         const inputemail = document.querySelector('#email').value;
+         const inputpassword = document.querySelector('#password').value;
+
+         // Perform authentication logic here
+         if (inputemail === email && inputpassword === password) {
+            alert('Login successful');
+            analytics.track('Login Successful Alert', {
+               email: inputemail,
+               type: "Login Succesful"
+            });
+            // Redirect the user to the dashboard page
+            window.location.href = 'success.html';
+         } else {
+            alert('Invalid email or password');
+         }
+      });
+   </script>
 
 
-  </body>
+</body>
+
 </html>
