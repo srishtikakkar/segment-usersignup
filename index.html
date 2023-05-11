@@ -60,10 +60,14 @@
             email: email
          });
 
-         analytics.track("User Registered", {
-            event_name: "signup button clicked",
-            button_text: "submit"
+         analytics.track("Registration Button Clicked", {
+            button_name: "submit"
          })
+         
+         analytics.track("Registration Successfull",{
+            name:name,
+            email:email
+         });
 
          // Redirect the user to the login page
          window.location.href = 'login.html';
