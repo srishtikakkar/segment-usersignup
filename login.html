@@ -69,6 +69,15 @@
             window.location.href = 'success.html';
          } else {
             alert('Invalid email or password');
+            
+            analytics.track('Alert Displayed',{
+               type:'Login Failed',
+            });
+            
+            analytics.track('Alert Clicked',{
+               type:'Login Failed',
+               alert_text:'invalid details'
+            });
          }
       });
    </script>
