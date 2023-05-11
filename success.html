@@ -22,6 +22,11 @@
    <script>
       const logoutBtn = document.querySelector('#logout-btn');
       logoutBtn.addEventListener('click', function () {
+         analytics.track('Button Clicked',{
+            button_type:'Logout',
+            button_text:'Logout'
+         });
+         
          analytics.reset();
          window.location.href = 'login.html'; // Redirect to the login page
       });
