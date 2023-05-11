@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Registration and Sign-up Form</title>
-    <script>
-        !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on","addSourceMiddleware","addIntegrationMiddleware","setAnonymousId","addDestinationMiddleware"];analytics.factory=function(e){return function(){var t=Array.prototype.slice.call(arguments);t.unshift(e);analytics.push(t);return analytics}};for(var e=0;e<analytics.methods.length;e++){var key=analytics.methods[e];analytics[key]=analytics.factory(key)}analytics.load=function(key,e){var t=document.createElement("script");t.type="text/javascript";t.async=!0;t.src="https://cdn.segment.com/analytics.js/v1/" + key + "/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(t,n);analytics._loadOptions=e};analytics._writeKey="wvwAdj28GcUK0TPhfPu2eJgCv1Y7vVAC";;analytics.SNIPPET_VERSION="4.15.3";
-        analytics.load("wvwAdj28GcUK0TPhfPu2eJgCv1Y7vVAC");
-        analytics.page("Home","SignUp");
-        }}();
-    </script>
+   <title>Registration and Sign-up Form</title>
+   <script>
+      !function () {
+         var analytics = window.analytics = window.analytics || []; if (!analytics.initialize) if (analytics.invoked) window.console && console.error && console.error("Segment snippet included twice."); else {
+            analytics.invoked = !0; analytics.methods = ["trackSubmit", "trackClick", "trackLink", "trackForm", "pageview", "identify", "reset", "group", "track", "ready", "alias", "debug", "page", "once", "off", "on", "addSourceMiddleware", "addIntegrationMiddleware", "setAnonymousId", "addDestinationMiddleware"]; analytics.factory = function (e) { return function () { var t = Array.prototype.slice.call(arguments); t.unshift(e); analytics.push(t); return analytics } }; for (var e = 0; e < analytics.methods.length; e++) { var key = analytics.methods[e]; analytics[key] = analytics.factory(key) } analytics.load = function (key, e) { var t = document.createElement("script"); t.type = "text/javascript"; t.async = !0; t.src = "https://cdn.segment.com/analytics.js/v1/" + key + "/analytics.min.js"; var n = document.getElementsByTagName("script")[0]; n.parentNode.insertBefore(t, n); analytics._loadOptions = e }; analytics._writeKey = "wvwAdj28GcUK0TPhfPu2eJgCv1Y7vVAC";; analytics.SNIPPET_VERSION = "4.15.3";
+            analytics.load("wvwAdj28GcUK0TPhfPu2eJgCv1Y7vVAC");
+            analytics.page("Home", "SignUp");
+         }
+      }();
+   </script>
    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
    <form id="signup-form">
       <label for="name">Name:</label>
@@ -24,45 +29,46 @@
    <button onclick="location.href='login.html'">Already have an account? Log in</button>
 
    <script>
-    // Select the form element
-const form = document.querySelector('#signup-form');
+      // Select the form element
+      const form = document.querySelector('#signup-form');
 
-// Handle the form submission
-form.addEventListener('submit', function(event) {
-   event.preventDefault(); // Prevent the default form submission behavior
+      // Handle the form submission
+      form.addEventListener('submit', function (event) {
+         event.preventDefault(); // Prevent the default form submission behavior
 
-   // Get the input values
-   const name = document.querySelector('#name').value;
-   const email = document.querySelector('#email').value;
-   const password = document.querySelector('#password').value;
-    // Generate a random user ID
-   const userId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+         // Get the input values
+         const name = document.querySelector('#name').value;
+         const email = document.querySelector('#email').value;
+         const password = document.querySelector('#password').value;
+         // Generate a random user ID
+         const userId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 
-    // Store the user ID in local storage
-   localStorage.setItem('userId', userId);
-   localStorage.setItem('email', email);
-   localStorage.setItem('password', password);
+         // Store the user ID in local storage
+         localStorage.setItem('userId', userId);
+         localStorage.setItem('email', email);
+         localStorage.setItem('password', password);
 
-   console.log(name, email, password);
-   // Validate the input values
-   if (name === '' || email === '' || password === '') {
-      alert('Please fill in all the fields');
-      return false;
-   }
+         console.log(name, email, password);
+         // Validate the input values
+         if (name === '' || email === '' || password === '') {
+            alert('Please fill in all the fields');
+            return false;
+         }
 
-   analytics.identify(userId, {
-    name: name,
-    email: email
-   });
+         analytics.identify(userId, {
+            name: name,
+            email: email
+         });
 
-   analytics.track("User Registered",{
-    event_name: "signup button clicked",
-    button_text: "submit"
-   })
+         analytics.track("User Registered", {
+            event_name: "signup button clicked",
+            button_text: "submit"
+         })
 
-   // Redirect the user to the login page
-   window.location.href = 'login.html';
-});
-    </script>
+         // Redirect the user to the login page
+         window.location.href = 'login.html';
+      });
+   </script>
 </body>
+
 </html>
