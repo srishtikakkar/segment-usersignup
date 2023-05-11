@@ -53,11 +53,11 @@
             alert('Login successful');
             
             analytics.track('Alert Displayed',{
-               type: 'Login Success'
+               alert_type: 'Login Success'
             });
             
             analytics.track('Alert Clicked',{
-               type:'Login Success',
+               alert_type:'Login Success',
                alert_text:'OK'
             });
             
@@ -71,12 +71,12 @@
             alert('Invalid email or password');
             
             analytics.track('Alert Displayed',{
-               type:'Login Failed',
+               alert_type:'Login Failed',
             });
             
             analytics.track('Alert Clicked',{
-               type:'Login Failed',
-               alert_text:'invalid details'
+               alert_type:'Login Fail'
+               alert_text:'Invalid details'
             });
          }
       });
