@@ -11,6 +11,51 @@
             analytics.page("Login");
          }
       }();
+
+      class utm_enricher_plugin {
+  constructor() {
+    this.name = 'UTM Enricher';
+    // before, enrichment, destination, after
+    this.type = 'before';
+    this.version = '1';
+  }
+    
+  isLoaded() {
+    return true;
+  }
+   
+  async load(ctx, analytics) {
+
+    // parse URL for utm params
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const campaign_id = urlParams.get('campaign_id')
+    const medium = urlParams.get('medium');
+    const source = urlParams.get('source');
+    const content = urlParams.get('content');
+    const tactic = urlParams.get('tactic');
+    const link = urlParams.get('link');
+
+    var utm_params = JSON.stringify({ campaign_id: campaign_id, medium: medium, source: source, content: content, tactic: tactic, link: link });
+
+    localStorage.setItem("utm_params", utm_params);
+
+    return;
+  }
+    
+  async track(ctx) {
+    ctx.event.properties.utm_params = JSON.parse(localStorage.getItem("utm_params"));
+    return ctx;
+  }
+
+  async page(ctx) {
+    ctx.event.properties.utm_params = JSON.parse(localStorage.getItem("utm_params"));
+    return ctx;
+  }
+}
+
+
+      
    </script>
    <script>
     (function(h,o,t,j,a,r){
@@ -33,7 +78,7 @@
       <label for="password">Password:</label>
       <input type="password" id="password" name="password" required><br>
 
-      <button type="submit">Login</button>
+      <button type="submit" id="login-button">Login</button>
    </form>
 
    <script>
@@ -57,7 +102,8 @@
             
             analytics.track('Button Clicked',{
                button_type:'Login',
-               button_text:'submit'
+               button_text:'submit',
+               utm_params: JSON.parse(localStorage.getItem("utm_params")) // Sending UTM params here
             });
             
             alert('Login successful');
