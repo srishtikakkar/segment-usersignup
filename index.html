@@ -19,6 +19,8 @@
    
   async load(ctx, analytics) {
 
+     console.log("loaded plugin");
+
     // parse URL for utm params
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
@@ -28,6 +30,8 @@
     const content = urlParams.get('content');
     const tactic = urlParams.get('tactic');
     const link = urlParams.get('link');
+
+      console.log(medium);
 
     var utm_params = JSON.stringify({ campaign_id: campaign_id, medium: medium, source: source, content: content, tactic: tactic, link: link });
 
