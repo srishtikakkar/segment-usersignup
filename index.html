@@ -24,12 +24,11 @@
     // parse URL for utm params
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    const campaign_id = urlParams.get('campaign_id')
-    const medium = urlParams.get('medium');
-    const source = urlParams.get('source');
-    const content = urlParams.get('content');
-    const tactic = urlParams.get('tactic');
-    const link = urlParams.get('link');
+    const medium = urlParams.get('utm_medium');
+    const source = urlParams.get('utm_source');
+    const content = urlParams.get('utm_content');
+    const tactic = urlParams.get('utm_tactic');
+    const link = urlParams.get('utm_link');
 
       console.log(medium);
 
