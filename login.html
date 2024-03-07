@@ -8,10 +8,10 @@
 
 class utm_enricher_plugin {
   constructor() {
-    this.name = ‘UTM Enricher’;
+    this.name = 'UTM Enricher'; // Use regular single quotes instead of fancy quotes
     // before, enrichment, destination, after
-    this.type = ‘before’;
-    this.version = ‘1’;
+    this.type = 'before';
+    this.version = '1';
   }
   isLoaded() {
     return true;
@@ -19,28 +19,29 @@ class utm_enricher_plugin {
   async load(ctx, analytics) {
     // parse URL for utm params
     const queryString = window.location.search;
-    if (queryString !== ‘’) {
-      console.log(“setting UTM params”)
+    if (queryString !== '') {
+      console.log("setting UTM params");
       const urlParams = new URLSearchParams(queryString);
-      const medium = urlParams.get(‘utm_medium’);
-      const source = urlParams.get(‘utm_source’);
-      const content = urlParams.get(‘utm_content’);
-      const tactic = urlParams.get(‘utm_tactic’);
-      const link = urlParams.get(‘utm_link’);
+      const medium = urlParams.get('utm_medium');
+      const source = urlParams.get('utm_source');
+      const content = urlParams.get('utm_content');
+      const tactic = urlParams.get('utm_tactic');
+      const link = urlParams.get('utm_link');
       var utm_params = JSON.stringify({medium: medium, source: source, content: content, tactic: tactic, link: link });
-      localStorage.setItem(“utm_params”, utm_params);
+      localStorage.setItem("utm_params", utm_params);
     }
     return;
   }
   async track(ctx) {
-    ctx.event.properties.utm_params = JSON.parse(localStorage.getItem(“utm_params”));
+    ctx.event.properties.utm_params = JSON.parse(localStorage.getItem("utm_params"));
     return ctx;
   }
   async page(ctx) {
-    ctx.event.properties.utm_params = JSON.parse(localStorage.getItem(“utm_params”));
+    ctx.event.properties.utm_params = JSON.parse(localStorage.getItem("utm_params"));
     return ctx;
   }
 }
+
    </script>
 
    
