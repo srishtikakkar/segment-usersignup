@@ -34,6 +34,7 @@ class utm_enricher_plugin {
   }
   async track(ctx) {
     ctx.event.properties.utm_params = JSON.parse(localStorage.getItem("utm_params"));
+     console.log('utm_params are', ctx.event.properties.utm_params);
     return ctx;
   }
   async page(ctx) {
