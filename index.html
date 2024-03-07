@@ -33,6 +33,7 @@
   }
   async track(ctx) {
     ctx.event.properties.utm_params = JSON.parse(localStorage.getItem("utm_params"));
+     console.log(ctx.event.properties.utm_params);
     return ctx;
   }
   async page(ctx) {
