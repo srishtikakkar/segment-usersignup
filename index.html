@@ -18,9 +18,9 @@
   async load(ctx, analytics) {
     // parse URL for utm params
     const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    if (urlParams !== null) {
+    if (queryString !== ‘’) {
       console.log(“setting UTM params”)
+      const urlParams = new URLSearchParams(queryString);
       const medium = urlParams.get(‘utm_medium’);
       const source = urlParams.get(‘utm_source’);
       const content = urlParams.get(‘utm_content’);
