@@ -5,7 +5,7 @@
    <title>Registration and Sign-up Form</title>
    <script>
       class utm_enricher_plugin {
-  constructor() {
+    constructor() {
     this.name = 'UTM Enricher Plugin';
     // before, enrichment, destination, after, utility
     this.type = 'enrichment';
@@ -57,7 +57,6 @@
 }
 
 
-await window.analytics.register(new utm_enricher_plugin());
 
    </script>
       
@@ -70,6 +69,8 @@ await window.analytics.register(new utm_enricher_plugin());
          }
          
       }();
+
+      await window.analytics.register(new utm_enricher_plugin());
    
    </script>
    <!-- Hotjar Tracking Code for labfinder test -->
