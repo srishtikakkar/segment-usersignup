@@ -5,54 +5,54 @@
    <title>Registration and Sign-up Form</title>
    <script>
 
-            class basic_plugin {
+            class utm_enricher_plugin {
   constructor() {
-    this.name = ‘Basic Plugin Example’;
+    this.name = 'UTM Enricher';
     // before, enrichment, destination, after, utility
-    this.type = ‘enrichment’;
-    this.version = ‘1’;
+    this.type = 'enrichment';
+    this.version = '1';
   }
   isLoaded() {
     return true;
   }
   async load(ctx, analytics) {
     // parse URL for utm params
-    console.log(“loading plugin”);
+    console.log("loading plugin");
     const queryString = window.location.search;
     console.log(queryString);
-    if (queryString !== ‘’) {
-      console.log(“setting UTM params”);
+    if (queryString !== '') {
+      console.log("setting UTM params");
       const urlParams = new URLSearchParams(queryString);
-      const medium = urlParams.get(‘utm_medium’);
-      const source = urlParams.get(‘utm_source’);
-      const content = urlParams.get(‘utm_content’);
-      const tactic = urlParams.get(‘utm_tactic’);
-      const link = urlParams.get(‘utm_link’);
+      const medium = urlParams.get('utm_medium');
+      const source = urlParams.get('utm_source');
+      const content = urlParams.get('utm_content');
+      const tactic = urlParams.get('utm_tactic');
+      const link = urlParams.get('utm_link');
       var utm_params = JSON.stringify({medium: medium, source: source, content: content, tactic: tactic, link: link });
-      localStorage.setItem(“utm_params”, utm_params);
+      localStorage.setItem("utm_params", utm_params);
       console.log(utm_params);
     }
     return;
   }
   async track(ctx) {
-    console.log(“modifying track event”);
-    ctx.event.properties.new_property = “howdy”;
-    var utm_params = JSON.parse(localStorage.getItem(“utm_params:“));
+    console.log("modifying track event");
+    ctx.event.properties.new_property = "howdy";
+    var utm_params = JSON.parse(localStorage.getItem("utm_params:"));
     console.log(utm_params);
     ctx.event.properties.utm_params = utm_params;
     return ctx;
   }
   async page(ctx) {
-    ctx.event.properties.new_property = “howareye”;
-    console.log(“modifying page event”);
-    ctx.event.properties.new_property = “howdy”;
-    var utm_params = JSON.parse(localStorage.getItem(“utm_params:“));
+    ctx.event.properties.new_property = "howareye";
+    console.log("modifying page event");
+    ctx.event.properties.new_property = "howdy";
+    var utm_params = JSON.parse(localStorage.getItem("utm_params:"));
     console.log(utm_params);
     ctx.event.properties.utm_params = utm_params;
     return ctx;
   }
 }
-await window.analytics.register(new basic_plugin());
+await window.analytics.register(new utm_enricher_plugin());
 
    </script>
       
