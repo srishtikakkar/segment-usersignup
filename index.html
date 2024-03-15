@@ -4,17 +4,18 @@
 <head>
    <title>Registration and Sign-up Form</title>
    <script>
-
-            class utm_enricher_plugin {
+      class utm_enricher_plugin {
   constructor() {
-    this.name = 'UTM Enricher';
+    this.name = 'UTM Enricher Plugin';
     // before, enrichment, destination, after, utility
     this.type = 'enrichment';
     this.version = '1';
   }
+    
   isLoaded() {
     return true;
   }
+   
   async load(ctx, analytics) {
     // parse URL for utm params
     console.log("loading plugin");
@@ -34,6 +35,7 @@
     }
     return;
   }
+    
   async track(ctx) {
     console.log("modifying track event");
     ctx.event.properties.new_property = "howdy";
@@ -42,6 +44,7 @@
     ctx.event.properties.utm_params = utm_params;
     return ctx;
   }
+
   async page(ctx) {
     ctx.event.properties.new_property = "howareye";
     console.log("modifying page event");
@@ -52,6 +55,8 @@
     return ctx;
   }
 }
+
+
 await window.analytics.register(new utm_enricher_plugin());
 
    </script>
