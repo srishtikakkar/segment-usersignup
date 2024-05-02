@@ -30,7 +30,7 @@
 
    <button onclick="location.href='login.html'">Already have an account? Log in</button>
    <!-- Button to redirect to abcsrishtikakkar.net in a new tab -->
-   <button onclick="window.open('http://abcsrishtikakkar.net', '_blank')">Visit abcsrishtikakkar.net</button>
+   <button onclick="redirectToExternalSite()">Visit abcsrishtikakkar.net</button>
 
    <script>
       // Select the form element
@@ -71,6 +71,20 @@
          // Redirect the user to the login page
          window.location.href = 'login.html';
       });
+
+      // Function to redirect to external site with query string parameters
+      function redirectToExternalSite() {
+         const anonymousId = analytics.user().anonymousId();
+
+         // Generate the query string parameters
+         const queryString = `ajs_aid=${anonymousId}`;
+
+         // Append the query string to the URL
+         const url = `http://abcsrishtikakkar.net/?${queryString}`;
+
+         // Open the URL in a new tab
+         window.open(url, '_blank');
+      }
    </script>
 </body>
 
