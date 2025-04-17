@@ -24,7 +24,14 @@
             };
             engage = await window.Engage.init(settings);
             // Send VIEW event on load
-            engage.pageView();
+
+            engage.pageView({
+                channel: "WEB",
+                language: "EN",
+                currency: "USD",
+                page: window.location.pathname,
+                pointOfSale: settings.pointOfSale
+            });
         });
     </script>
 </head>
