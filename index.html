@@ -1,9 +1,8 @@
-html
+<!DOCTYPE html>
 <html>
 <head>
     <title>Registration and Sign-up Form</title>
     <link rel="stylesheet" href="style.css">
-
     <script type="text/javascript">
         var engage = undefined;
         var s = document.createElement("script");
@@ -24,35 +23,10 @@ html
                 webPersonalization: false
             };
             engage = await window.Engage.init(settings);
-            // Send a VIEW event
-            // ...
+            // Send VIEW event on load
+            engage.pageView();
         });
     </script>
-    
-    <script>
-        // Function to extract all URL parameters, specifically looking for UTM parameters
-        function getAllUrlParams() {
-            var params = {};
-            var queryString = window.location.search.substring(1);
-            var vars = queryString.split('&');
-            for (var i = 0; i < vars.length; i++) {
-                var pair = vars[i].split('=');
-                // Process all parameters, not just those starting with 'utm_'
-                if (typeof params[pair] === 'undefined') {
-                    params[pair] = decodeURIComponent(pair);
-                } else if (typeof params[pair] === 'string') {
-                    var arr = [params[pair], decodeURIComponent(pair)];
-                    params[pair] = arr;
-                } else {
-                    params[pair].push(decodeURIComponent(pair));
-                }
-            }
-            return params;
-        }
-        // Extract all parameters
-        var allParams = getAllUrlParams();
-    </script>
-    
 </head>
 <body>
     <form id="signup-form">
@@ -65,46 +39,54 @@ html
         <button type="submit">Sign up</button>
     </form>
     <button onclick="location.href='login.html'">Already have an account? Log in</button>
-    abcsrishtikakkar.net in a new tab -->
     <button onclick="redirectToExternalSite()">Visit abcsrishtikakkar.net</button>
+
     <script>
-        // Select the form element
         const form = document.querySelector('#signup-form');
-        // Handle the form submission
         form.addEventListener('submit', function (event) {
-            event.preventDefault(); // Prevent the default form submission behavior
-            // Get the input values
+            event.preventDefault();
             const name = document.querySelector('#name').value;
             const email = document.querySelector('#email').value;
             const password = document.querySelector('#password').value;
-            // Generate a random user ID
-            const userId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-            // Store the user ID in local storage
+            const userId = Math.random().toString(36).substring(2, 15) +
+                           Math.random().toString(36).substring(2, 15);
             localStorage.setItem('userId', userId);
             localStorage.setItem('email', email);
             localStorage.setItem('password', password);
-            console.log(name, email, password);
-            // Validate the input values
+
             if (name === '' || email === '' || password === '') {
                 alert('Please fill in all the fields');
                 return false;
             }
-            analytics.identify(userId, {
-                name: name,
-                email: email
-            });
-            analytics.track('Sign Up Completed', {});
-            // Redirect the user to the login page
+
+            // Sitecore CDP: Identify and track event
+            if (engage) {
+                engage.identity({
+                    type: 'identification',
+                    identifiers: {
+                        email: email
+                    },
+                    properties: {
+                        name: name
+                    }
+                });
+
+                engage.event({
+                    name: "signup_completed",
+                    properties: {
+                        name: name,
+                        email: email
+                    }
+                });
+            }
+
             window.location.href = 'login.html';
         });
-        // Function to redirect to external site with query string parameters
+
         function redirectToExternalSite() {
             const anonymousId = analytics.user().anonymousId();
-            // Generate the query string parameters
-            const queryString = ajs_aid=${anonymousId};
-            // Append the query string to the URL
-            const url = http://abcsrishtikakkar.net/?${queryString};
-            // Open the URL in a new tab
+            const queryString = `ajs_aid=${anonymousId}`;
+            const url = `http://abcsrishtikakkar.net/?${queryString}`;
             window.open(url, '_blank');
         }
     </script>
