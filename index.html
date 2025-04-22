@@ -45,6 +45,7 @@
         <input type="password" id="password" name="password">
         <button type="submit">Sign up</button>
     </form>
+
     <button onclick="location.href='login.html'">Already have an account? Log in</button>
     <button onclick="redirectToExternalSite()">Visit abcsrishtikakkar.net</button>
 
@@ -70,6 +71,7 @@
             // Sitecore Engage identity and event tracking
             if (engage) {
                 engage.identity({
+                    type: "identification",
                     identifiers: [
                         {
                             provider: "email",
@@ -83,6 +85,10 @@
 
                 engage.event({
                     name: "signup_completed",
+                    channel: "WEB",
+                    currency: "USD",
+                    language: "EN",
+                    pointOfSale: "srishti_test",
                     properties: {
                         name: name,
                         email: email
