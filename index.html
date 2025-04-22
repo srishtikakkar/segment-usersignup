@@ -53,65 +53,68 @@
     <button onclick="location.href='login.html'">Already have an account? Log in</button>
     <button onclick="redirectToExternalSite()">Visit abcsrishtikakkar.net</button>
 
-    <script>
-        const form = document.querySelector('#signup-form');
+   <script>
+    const form = document.querySelector('#signup-form');
 
-        form.addEventListener('submit', function (event) {
-            event.preventDefault();
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
 
-            const name = document.querySelector('#name').value;
-            const email = document.querySelector('#email').value;
-            const password = document.querySelector('#password').value;
+        const name = document.querySelector('#name').value;
+        const email = document.querySelector('#email').value;
+        const password = document.querySelector('#password').value;
 
-            if (name === '' || email === '' || password === '') {
-                alert('Please fill in all the fields');
-                return false;
-            }
-
-            const userId = Math.random().toString(36).substring(2, 15) +
-                           Math.random().toString(36).substring(2, 15);
-            localStorage.setItem('userId', userId);
-            localStorage.setItem('email', email);
-            localStorage.setItem('password', password);
-
-            if (engageReady && engage) {
-                engage.identity({
-                    type: "identification",
-                    identifiers: [
-                        {
-                            provider: "email",
-                            id: email
-                        }
-                    ],
-                    properties: {
-                        name: name
-                    }
-                });
-
-                engage.event({
-                    name: "signup_completed",
-                    type: "event",
-                    channel: "WEB",
-                    currency: "USD",
-                    language: "EN",
-                    pointOfSale: "srishti_test",
-                    page: window.location.pathname,
-                    properties: {
-                        name: name,
-                        email: email
-                    }
-                });
-            }
-
-            window.location.href = 'login.html';
-        });
-
-        function redirectToExternalSite() {
-            const anonymousId = localStorage.getItem("userId") || "unknown";
-            const queryString = `ajs_aid=${anonymousId}`;
-            const url = `http://abcsrishtikakkar.net/?${queryString}`;
-            window.open(url, '_blank');
+        if (name === '' || email === '' || password === '') {
+            alert('Please fill in all the fields');
+            return false;
         }
-    </script>
+
+        const userId = Math.random().toString(36).substring(2, 15) +
+                       Math.random().toString(36).substring(2, 15);
+        localStorage.setItem('userId', userId);
+        localStorage.setItem('email', email);
+        localStorage.setItem('password', password);
+
+        if (engageReady && engage) {
+            // 1. Identify the user
+            engage.identity({
+                identifiers: [
+                    {
+                        provider: "email",
+                        id: email
+                    }
+                ],
+                properties: {
+                    name: name
+                }
+            });
+
+            // 2. Send the custom interaction event
+            engage.event({
+                type: "INTERACTION", // Required for custom events
+                name: "signup_completed",
+                interaction: {
+                    channel: "WEB",
+                    language: "EN",
+                    currency: "USD",
+                    page: window.location.pathname,
+                    pointOfSale: "srishti_test"
+                },
+                properties: {
+                    name: name,
+                    email: email
+                }
+            });
+        }
+
+        window.location.href = 'login.html';
+    });
+
+    function redirectToExternalSite() {
+        const anonymousId = localStorage.getItem("userId") || "unknown";
+        const queryString = `ajs_aid=${anonymousId}`;
+        const url = `http://abcsrishtikakkar.net/?${queryString}`;
+        window.open(url, '_blank');
+    }
+</script>
 </body>
 </html>
