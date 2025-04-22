@@ -23,8 +23,8 @@
                 webPersonalization: false
             };
             engage = await window.Engage.init(settings);
-            // Send VIEW event on load
 
+            // Send page view
             engage.pageView({
                 channel: "WEB",
                 language: "EN",
@@ -55,24 +55,27 @@
             const name = document.querySelector('#name').value;
             const email = document.querySelector('#email').value;
             const password = document.querySelector('#password').value;
-            const userId = Math.random().toString(36).substring(2, 15) +
-                           Math.random().toString(36).substring(2, 15);
-            localStorage.setItem('userId', userId);
-            localStorage.setItem('email', email);
-            localStorage.setItem('password', password);
 
             if (name === '' || email === '' || password === '') {
                 alert('Please fill in all the fields');
                 return false;
             }
 
-            // Sitecore CDP: Identify and track event
+            const userId = Math.random().toString(36).substring(2, 15) +
+                           Math.random().toString(36).substring(2, 15);
+            localStorage.setItem('userId', userId);
+            localStorage.setItem('email', email);
+            localStorage.setItem('password', password);
+
+            // Sitecore Engage identity and event tracking
             if (engage) {
                 engage.identity({
-                    type: 'identification',
-                    identifiers: {
-                        email: email
-                    },
+                    identifiers: [
+                        {
+                            provider: "email",
+                            id: email
+                        }
+                    ],
                     properties: {
                         name: name
                     }
@@ -91,7 +94,7 @@
         });
 
         function redirectToExternalSite() {
-            const anonymousId = analytics.user().anonymousId();
+            const anonymousId = localStorage.getItem("userId") || "unknown";
             const queryString = `ajs_aid=${anonymousId}`;
             const url = `http://abcsrishtikakkar.net/?${queryString}`;
             window.open(url, '_blank');
