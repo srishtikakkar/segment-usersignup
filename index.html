@@ -5,12 +5,15 @@
     <link rel="stylesheet" href="style.css">
     <script type="text/javascript">
         var engage = undefined;
+        var engageReady = false;
+
         var s = document.createElement("script");
         s.type = "text/javascript";
         s.async = true;
         s.src = "https://d1mj578wat5n4o.cloudfront.net/sitecore-engage-v.1.4.2.min.js";
         var x = document.querySelector("script");
         x.parentNode.insertBefore(s, x);
+
         s.addEventListener("load", async () => {
             var settings = {
                 clientKey: "27a3a79edb7d1ed1786fee1ce8235e2b",
@@ -22,9 +25,10 @@
                 includeUTMParameters: true,
                 webPersonalization: false
             };
-            engage = await window.Engage.init(settings);
 
-            // Send page view
+            engage = await window.Engage.init(settings);
+            engageReady = true;
+
             engage.pageView({
                 channel: "WEB",
                 language: "EN",
@@ -51,8 +55,10 @@
 
     <script>
         const form = document.querySelector('#signup-form');
+
         form.addEventListener('submit', function (event) {
             event.preventDefault();
+
             const name = document.querySelector('#name').value;
             const email = document.querySelector('#email').value;
             const password = document.querySelector('#password').value;
@@ -68,8 +74,7 @@
             localStorage.setItem('email', email);
             localStorage.setItem('password', password);
 
-            // Sitecore Engage identity and event tracking
-            if (engage) {
+            if (engageReady && engage) {
                 engage.identity({
                     type: "identification",
                     identifiers: [
@@ -85,10 +90,12 @@
 
                 engage.event({
                     name: "signup_completed",
+                    type: "event",
                     channel: "WEB",
                     currency: "USD",
                     language: "EN",
                     pointOfSale: "srishti_test",
+                    page: window.location.pathname,
                     properties: {
                         name: name,
                         email: email
