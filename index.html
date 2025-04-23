@@ -90,20 +90,26 @@
 
             // 2. Send the custom interaction event
             engage.event({
-                type: "INTERACTION", // Required for custom events
                 name: "signup_completed",
-                interaction: {
-                    channel: "WEB",
-                    language: "EN",
-                    currency: "USD",
-                    page: window.location.pathname,
-                    pointOfSale: "srishti_test"
-                },
-                properties: {
-                    name: name,
-                    email: email
-                }
+                type: "event",
+                channel: "WEB",
+                currency: "USD",
+                language: "EN",
+                pointOfSale: "srishti_test",
+                page: window.location.pathname,
+                extensions: [
+                    {
+                        name: "ext",
+                        key: "default",
+                        values: {
+                            form_id: "signup-form",
+                            form_name: "User Registration Form",
+                            button_name: "Sign up"
+                        }
+                    }
+                ]
             });
+}
         }
 
         window.location.href = 'login.html';
