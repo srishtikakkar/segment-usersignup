@@ -1,46 +1,47 @@
 <!DOCTYPE html>
+
 <html>
 
 <head>
     <title>Login</title>
 
-    <script>
-        !function () {
-            var analytics = window.analytics = window.analytics || [];
-            if (!analytics.initialize)
-                if (analytics.invoked)
-                    window.console && console.error && console.error("Segment snippet included twice.");
-                else {
-                    analytics.invoked = !0;
-                    analytics.methods = ["trackSubmit", "trackClick", "trackLink", "trackForm", "pageview", "identify", "reset", "group", "track", "ready", "alias", "debug", "page", "once", "off", "on", "addSourceMiddleware", "addIntegrationMiddleware", "setAnonymousId", "addDestinationMiddleware"];
-                    analytics.factory = function (e) {
-                        return function () {
-                            var t = Array.prototype.slice.call(arguments);
-                            t.unshift(e);
-                            analytics.push(t);
-                            return analytics
-                        }
-                    };
-                    for (var e = 0; e < analytics.methods.length; e++) {
-                        var key = analytics.methods[e];
-                        analytics[key] = analytics.factory(key)
-                    }
-                    analytics.load = function (key, e) {
-                        var t = document.createElement("script");
-                        t.type = "text/javascript";
-                        t.async = !0;
-                        t.src = "https://cdn.segment.com/analytics.js/v1/" + key + "/analytics.min.js";
-                        var n = document.getElementsByTagName("script")[0];
-                        n.parentNode.insertBefore(t, n);
-                        analytics._loadOptions = e
-                    };
-                    analytics._writeKey = "wvwAdj28GcUK0TPhfPu2eJgCv1Y7vVAC";
-                    analytics.SNIPPET_VERSION = "4.15.3";
-                    analytics.load("wvwAdj28GcUK0TPhfPu2eJgCv1Y7vVAC");
-                    analytics.page("Login");
-                }
-        }();
-    </script>
+<!-- Sitecore Engage SDK -->
+<script type="text/javascript">
+    var engage = undefined;
+    var engageReady = false;
+
+    var s = document.createElement("script");
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = "https://d1mj578wat5n4o.cloudfront.net/sitecore-engage-v.1.4.2.min.js";
+    var x = document.querySelector("script");
+    x.parentNode.insertBefore(s, x);
+
+    s.addEventListener("load", async () => {
+        const settings = {
+            clientKey: "27a3a79edb7d1ed1786fee1ce8235e2b",
+            targetURL: "https://api-engage-us.sitecorecloud.io",
+            pointOfSale: "srishti_test",
+            cookieDomain: "srishtikakkar.github.io",
+            cookieExpiryDays: 365,
+            forceServerCookieMode: false,
+            includeUTMParameters: true,
+            webPersonalization: false
+        };
+
+        engage = await window.Engage.init(settings);
+        engageReady = true;
+
+        engage.pageView({
+            channel: "WEB",
+            language: "EN",
+            currency: "USD",
+            page: window.location.pathname,
+            pointOfSale: settings.pointOfSale
+        });
+    });
+</script>
+```
 
 </head>
 
@@ -50,82 +51,51 @@
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required><br>
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required><br>
+```
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required><br>
 
-        <button type="submit" id="login-button">Login</button>
-    </form>
+    <button type="submit" id="login-button">Login</button>
+</form>
 
-    <script>
-        // Retrieve the user ID from local storage
-        const userID = localStorage.getItem('userID');
-        const email = localStorage.getItem('email');
-        const password = localStorage.getItem('password');
-        console.log('User ID:', userID);
+<script>
+    const form = document.querySelector('#login-form');
+    form.addEventListener('submit', async function (event) {
+        event.preventDefault();
 
-        // Handle the form submission
-        const form = document.querySelector('#login-form');
-        form.addEventListener('submit', function (event) {
-            event.preventDefault(); // Prevent the default form submission behavior
+        const inputemail = document.querySelector('#email').value;
+        const inputpassword = document.querySelector('#password').value;
 
-            // Get the input values
-            const inputemail = document.querySelector('#email').value;
-            const inputpassword = document.querySelector('#password').value;
+        const storedEmail = localStorage.getItem('email');
+        const storedPassword = localStorage.getItem('password');
 
-            // Perform authentication logic here
-            if (inputemail === email && inputpassword === password) {
+        if (inputemail === storedEmail && inputpassword === storedPassword) {
+            alert('Login successful');
 
-                analytics.track('Button Clicked', {
-                    button_type: 'Login',
-                    button_text: 'submit'
-                }, {
-                    integrations: {
-                        'Klaviyo': true
-                    }
+            if (engageReady && engage) {
+                await engage.identity({
+                    identifiers: [{ provider: "email", id: inputemail }]
                 });
 
-                alert('Login successful');
-
-                analytics.track('Alert Displayed', {
-                    alert_type: 'Login Success'
-                }, {
-                    integrations: {
-                        'Klaviyo': true
-                    }
-                });
-
-                analytics.track('Alert Clicked', {
-                    alert_type: 'Login Success',
-                    alert_text: 'OK'
-                }, {
-                    integrations: {
-                        'Klaviyo': true
-                    }
-                });
-
-                analytics.identify({
-                    email: email
-                }, {
-                    integrations: {
-                        'Klaviyo': true
-                    }
-                });
-                // Redirect the user to the dashboard page
-                window.location.href = 'success.html';
-            } else {
-                alert('Invalid email or password');
-
-                analytics.track('Alert Displayed', {
-                    alert_type: 'Login Failed',
-                });
-
-                analytics.track('Alert Clicked', {
-                    alert_type: 'Login Fail',
-                    alert_text: 'Invalid details'
+                await engage.event("logged_in", {
+                    channel: "WEB",
+                    currency: "USD",
+                    language: "EN",
+                    pointOfSale: "srishti_test",
+                    page: window.location.pathname
                 });
             }
-        });
-    </script>
+
+            window.location.href = 'success.html';
+        } else {
+            alert('Invalid email or password');
+            analytics.track('Login Failed', {
+                attempted_email: inputemail
+            });
+        }
+    });
+</script>
+```
 
 </body>
 
