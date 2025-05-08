@@ -3,6 +3,20 @@
 <head>
     <title>Registration and Sign-up Form</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        .popup-message {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #0078D4;
+            color: white;
+            padding: 16px;
+            border-radius: 8px;
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+            z-index: 9999;
+            font-family: sans-serif;
+        }
+    </style>
     <script type="text/javascript">
         var engage = undefined;
         var engageReady = false;
@@ -36,6 +50,26 @@
                 page: window.location.pathname,
                 pointOfSale: settings.pointOfSale
             });
+
+            // Call interactive experience and render message
+            setTimeout(() => {
+                if (engageReady && engage) {
+                    engage.personalize({
+                        channel: "WEB",
+                        currency: "USD",
+                        pointOfSale: settings.pointOfSale,
+                        friendlyId: "your_interactive_experience_friendlyId" // Replace with your actual friendlyId
+                    }).then((response) => {
+                        if (response?.showSignupPrompt) {
+                            const message = response.message;
+                            const popup = document.createElement("div");
+                            popup.className = "popup-message";
+                            popup.innerText = message;
+                            document.body.appendChild(popup);
+                        }
+                    });
+                }
+            }, 3000); // delay of 3 seconds after page load
         });
     </script>
 </head>
@@ -96,10 +130,9 @@
                 await engage.event("signup_completed", eventData, eventExtensionData);
             }
 
-            // Delay redirect to allow popup time to render
             setTimeout(() => {
                 window.location.href = 'login.html';
-            },  300000); // 3-second delay
+            }, 3000);
         });
 
         function redirectToExternalSite() {
