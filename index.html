@@ -51,21 +51,27 @@
                 pointOfSale: settings.pointOfSale
             });
 
-            // Trigger Interactive Experience
+            // Trigger your Interactive Experience (srishti_ix1)
             try {
-                const response = await engage.decisioning("srishti_ix1", {
-                    pointOfSale: settings.pointOfSale,
-                    channel: "WEB"
+                const response = await engage.getWebExperiences({
+                    decisionScopes: [{ scope: "srishti_ix1" }]
                 });
 
-                if (response && response.showAlert === true) {
+                const exp = response.find(x => x.scope === "srishti_ix1");
+                if (
+                    exp &&
+                    exp.items &&
+                    exp.items.length > 0 &&
+                    exp.items[0].decisionModel &&
+                    exp.items[0].decisionModel.showAlert === true
+                ) {
                     const alertBox = document.createElement("div");
                     alertBox.className = "popup-message";
-                    alertBox.innerText = "You've visited the homepage multiple times. Sign up now!";
+                    alertBox.innerText = "You've visited multiple times without signing up. Sign up now!";
                     document.body.appendChild(alertBox);
                 }
             } catch (err) {
-                console.warn("Decisioning failed:", err);
+                console.warn("🔴 Failed to load experience:", err);
             }
         });
     </script>
@@ -99,7 +105,8 @@
                 return;
             }
 
-            const userId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+            const userId = Math.random().toString(36).substring(2, 15) +
+                           Math.random().toString(36).substring(2, 15);
             localStorage.setItem('userId', userId);
             localStorage.setItem('email', email);
             localStorage.setItem('password', password);
