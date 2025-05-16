@@ -51,20 +51,16 @@
                 pointOfSale: settings.pointOfSale
             });
 
-            // Trigger your Interactive Experience (srishti_ix1)
+            // 🔔 Call Interactive Experience (srishti_ix1)
             try {
-                const response = await engage.getWebExperiences({
-                    decisionScopes: [{ scope: "srishti_ix1" }]
+                const response = await engage.personalize({
+                    channel: "WEB",
+                    currency: "USD",
+                    pointOfSale: settings.pointOfSale,
+                    friendlyId: "srishti_ix1"
                 });
 
-                const exp = response.find(x => x.scope === "srishti_ix1");
-                if (
-                    exp &&
-                    exp.items &&
-                    exp.items.length > 0 &&
-                    exp.items[0].decisionModel &&
-                    exp.items[0].decisionModel.showAlert === true
-                ) {
+                if (response?.showAlert === true) {
                     const alertBox = document.createElement("div");
                     alertBox.className = "popup-message";
                     alertBox.innerText = "You've visited multiple times without signing up. Sign up now!";
