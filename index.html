@@ -17,6 +17,22 @@
             font-family: sans-serif;
         }
     </style>
+</head>
+<body>
+    <form id="signup-form">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password">
+        <button type="submit">Sign up</button>
+    </form>
+
+    <button onclick="location.href='login.html'">Already have an account? Log in</button>
+    <button onclick="redirectToExternalSite()">Visit abcsrishtikakkar.net</button>
+
+    <!-- Engage Script -->
     <script type="text/javascript">
         var engage = undefined;
         var engageReady = false;
@@ -51,41 +67,38 @@
                 pointOfSale: settings.pointOfSale
             });
 
-            // 🔔 Call Interactive Experience (srishti_ix1)
+            // Delay and trigger interactive experience
+            setTimeout(() => {
+                triggerInteractiveExperience();
+            }, 2000);
+        });
+
+        async function triggerInteractiveExperience() {
+            if (!engageReady || !engage) return;
+
             try {
                 const response = await engage.personalize({
+                    friendlyId: "srishti_ix1",
+                    pointOfSale: "srishti_test",
                     channel: "WEB",
-                    currency: "USD",
-                    pointOfSale: settings.pointOfSale,
-                    friendlyId: "srishti_ix1"
+                    currency: "USD"
                 });
 
                 if (response?.showAlert === true) {
-                    const alertBox = document.createElement("div");
-                    alertBox.className = "popup-message";
-                    alertBox.innerText = "You've visited multiple times without signing up. Sign up now!";
-                    document.body.appendChild(alertBox);
+                    const popup = document.createElement("div");
+                    popup.className = "popup-message";
+                    popup.innerText = "👋 You've visited a few times. Ready to sign up?";
+                    document.body.appendChild(popup);
+                } else {
+                    console.log("No alert needed.");
                 }
-            } catch (err) {
-                console.warn("🔴 Failed to load experience:", err);
+            } catch (e) {
+                console.error("🔴 Failed to load experience:", e);
             }
-        });
+        }
     </script>
-</head>
-<body>
-    <form id="signup-form">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name">
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email">
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password">
-        <button type="submit">Sign up</button>
-    </form>
 
-    <button onclick="location.href='login.html'">Already have an account? Log in</button>
-    <button onclick="redirectToExternalSite()">Visit abcsrishtikakkar.net</button>
-
+    <!-- Signup Form Logic -->
     <script>
         const form = document.querySelector('#signup-form');
 
@@ -101,8 +114,7 @@
                 return;
             }
 
-            const userId = Math.random().toString(36).substring(2, 15) +
-                           Math.random().toString(36).substring(2, 15);
+            const userId = Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
             localStorage.setItem('userId', userId);
             localStorage.setItem('email', email);
             localStorage.setItem('password', password);
@@ -132,6 +144,7 @@
 
             localStorage.setItem("justSignedUp", "true");
 
+            // Redirect after 3 minutes
             setTimeout(() => {
                 window.location.href = 'login.html';
             }, 180000);
