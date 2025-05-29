@@ -32,70 +32,64 @@
     <button onclick="location.href='login.html'">Already have an account? Log in</button>
     <button onclick="redirectToExternalSite()">Visit abcsrishtikakkar.net</button>
 
-    <!-- Engage Script -->
-    <script type="text/javascript">
-        var engage = undefined;
-        var engageReady = false;
-        let inactivityTimeout;
-        const INACTIVITY_LIMIT = 60000; // 45 seconds
+<script>
+    let engage, engageReady = false;
+    const INACTIVITY_LIMIT = 45000;
+    let inactivityTimer;
 
-        function triggerInteractiveExperience() {
-            if (!engageReady || !engage) return;
-
-            // Skip if user has just signed up
-            const justSignedUp = localStorage.getItem("justSignedUp") === "true";
-            if (justSignedUp) return;
-
-            engage.personalize({
-                friendlyId: "page_lingering_alert_bar",
-                pointOfSale: "srishti_test",
-                channel: "WEB",
-                currency: "USD"
-            });
-        }
-
-        function resetInactivityTimer() {
-            clearTimeout(inactivityTimeout);
-            inactivityTimeout = setTimeout(triggerInteractiveExperience, INACTIVITY_LIMIT);
-        }
-
-        var s = document.createElement("script");
-        s.type = "text/javascript";
-        s.async = true;
-        s.src = "https://d1mj578wat5n4o.cloudfront.net/sitecore-engage-v.1.4.2.min.js";
-        var x = document.querySelector("script");
-        x.parentNode.insertBefore(s, x);
-
-        s.addEventListener("load", async () => {
-            const settings = {
-                clientKey: "27a3a79edb7d1ed1786fee1ce8235e2b",
-                targetURL: "https://api-engage-us.sitecorecloud.io",
-                pointOfSale: "srishti_test",
-                cookieDomain: "srishtikakkar.github.io",
-                cookieExpiryDays: 365,
-                forceServerCookieMode: false,
-                includeUTMParameters: true,
-                webPersonalization: true
-            };
-
-            engage = await window.Engage.init(settings);
-            engageReady = true;
-
-            engage.pageView({
-                channel: "WEB",
-                language: "EN",
-                currency: "USD",
-                page: window.location.pathname,
-                pointOfSale: settings.pointOfSale
-            });
-
-            // ✅ Start inactivity timer after Engage is ready
-            document.addEventListener("mousemove", resetInactivityTimer);
-            document.addEventListener("keydown", resetInactivityTimer);
-            document.addEventListener("scroll", resetInactivityTimer);
-            resetInactivityTimer();
+    const initEngage = async () => {
+        const settings = {
+            clientKey: "27a3a79edb7d1ed1786fee1ce8235e2b",
+            targetURL: "https://api-engage-us.sitecorecloud.io",
+            pointOfSale: "srishti_test",
+            cookieDomain: "srishtikakkar.github.io",
+            webPersonalization: true
+        };
+        engage = await window.Engage.init(settings);
+        engageReady = true;
+        engage.pageView({
+            channel: "WEB",
+            language: "EN",
+            currency: "USD",
+            page: window.location.pathname,
+            pointOfSale: settings.pointOfSale
         });
-    </script>
+    };
+
+    const triggerWebExperience = () => {
+        if (!engageReady) return;
+        engage.personalize({
+            friendlyId: "page_lingering_alert_bar", // your web experience ID
+            pointOfSale: "srishti_test",
+            channel: "WEB",
+            currency: "USD"
+        });
+    };
+
+    const resetInactivity = () => {
+        clearTimeout(inactivityTimer);
+        inactivityTimer = setTimeout(triggerWebExperience, INACTIVITY_LIMIT);
+    };
+
+    // Setup
+    const setupInactivityTracking = () => {
+        document.addEventListener("mousemove", resetInactivity);
+        document.addEventListener("keydown", resetInactivity);
+        document.addEventListener("scroll", resetInactivity);
+        resetInactivity(); // Start initial timer
+    };
+
+    // Load Engage and start everything
+    const engageScript = document.createElement("script");
+    engageScript.src = "https://d1mj578wat5n4o.cloudfront.net/sitecore-engage-v.1.4.2.min.js";
+    engageScript.onload = () => {
+        initEngage().then(() => {
+            setupInactivityTracking();
+        });
+    };
+    document.head.appendChild(engageScript);
+</script>
+
 
     <!-- Signup Form Logic -->
     <script>
