@@ -36,6 +36,28 @@
     <script type="text/javascript">
         var engage = undefined;
         var engageReady = false;
+        let inactivityTimeout;
+        const INACTIVITY_LIMIT = 45000; // 45 seconds
+
+        function triggerInteractiveExperience() {
+            if (!engageReady || !engage) return;
+
+            // Skip if user has just signed up
+            const justSignedUp = localStorage.getItem("justSignedUp") === "true";
+            if (justSignedUp) return;
+
+            engage.personalize({
+                friendlyId: "page_lingering_alert_bar",
+                pointOfSale: "srishti_test",
+                channel: "WEB",
+                currency: "USD"
+            });
+        }
+
+        function resetInactivityTimer() {
+            clearTimeout(inactivityTimeout);
+            inactivityTimeout = setTimeout(triggerInteractiveExperience, INACTIVITY_LIMIT);
+        }
 
         var s = document.createElement("script");
         s.type = "text/javascript";
@@ -66,33 +88,13 @@
                 page: window.location.pathname,
                 pointOfSale: settings.pointOfSale
             });
+
+            // ✅ Start inactivity timer after Engage is ready
+            document.addEventListener("mousemove", resetInactivityTimer);
+            document.addEventListener("keydown", resetInactivityTimer);
+            document.addEventListener("scroll", resetInactivityTimer);
+            resetInactivityTimer();
         });
-
-        let inactivityTimeout;
-        const INACTIVITY_LIMIT = 45000; // 45 seconds
-        
-        function triggerInteractiveExperience() {
-            if (!engageReady || !engage) return;
-            
-            engage.personalize({
-                friendlyId: "page_lingering_alert_bar", // your experience ID
-                pointOfSale: "srishti_test",
-                channel: "WEB",
-                currency: "USD"
-            });
-        }
-        
-        
-        function resetInactivityTimer() {
-            clearTimeout(inactivityTimeout);
-            inactivityTimeout = setTimeout(triggerInteractiveExperience, INACTIVITY_LIMIT);
-        }
-        
-        document.addEventListener("mousemove", resetInactivityTimer);
-        document.addEventListener("keydown", resetInactivityTimer);
-        document.addEventListener("scroll", resetInactivityTimer);
-        resetInactivityTimer();
-
     </script>
 
     <!-- Signup Form Logic -->
