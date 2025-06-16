@@ -17,6 +17,17 @@
             font-family: sans-serif;
         }
     </style>
+
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+      appId: "ee0a36ba-08ba-47d8-97d1-b800f388a57c",
+    });
+  });
+</script>
+    
 </head>
 <body>
     <form id="signup-form">
