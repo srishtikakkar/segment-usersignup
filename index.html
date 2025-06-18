@@ -156,11 +156,10 @@
 
             localStorage.setItem("justSignedUp", "true");
 
-                    OneSignal.push(function() {
-                        OneSignal.setExternalUserId(email, undefined, function() {
-                            console.log("External ID set in OneSignal:", email);
-                        });
-                    });
+            OneSignalDeferred.push(function(OneSignal) {
+                OneSignal.User.PushSubscription.setExternalId(email);
+            });
+
 
             // Redirect after 3 minutes
             setTimeout(() => {
