@@ -131,6 +131,16 @@
             localStorage.setItem('email', email);
             localStorage.setItem('password', password);
 
+            // Set OneSignal External ID dynamically
+            window.OneSignalDeferred.push(async function (OneSignal) {
+                try {
+                    await OneSignal.login(email);
+                    console.log(`✅ OneSignal external ID set: ${email}`);
+                } catch (error) {
+                    console.error("❌ OneSignal login error:", error);
+                }
+            });
+
             if (engageReady && engage) {
                 await engage.identity({
                     identifiers: [{ provider: "email", id: email }],
@@ -155,10 +165,6 @@
             }
 
             localStorage.setItem("justSignedUp", "true");
-
-            OneSignalDeferred.push(function(OneSignal) {
-                OneSignal.User.PushSubscription.setExternalId(email);
-            });
 
 
             // Redirect after 3 minutes
