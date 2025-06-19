@@ -144,7 +144,7 @@
             if (engageReady && engage) {
                 await engage.identity({
                     identifiers: [{ provider: "email", id: email }],
-                    properties: { name: name }
+                    email: email }
                 });
 
                 const eventData = {
