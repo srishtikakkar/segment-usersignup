@@ -243,24 +243,6 @@
             opacity: 0.9;
         }
     </style>
-    
-    <!-- Intercom Installation -->
-    <script>
-      window.intercomSettings = {
-        api_base: "https://api-iam.intercom.io",
-        app_id: "itor2igq" // Replace with your actual APP_ID
-      };
-    </script>
-    <script>
-    (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){
-    ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;
-    var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};
-    w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';
-    s.async=true;s.src='https://widget.intercom.io/widget/itor2igq';
-    var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};
-    if(document.readyState==='complete'){l();}else if(w.attachEvent){
-    w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();
-    </script>
 </head>
 <body>
     <div class="container">
@@ -348,22 +330,55 @@
         </div>
     </div>
     
+    <!-- Intercom Widget Installation - CORRECTED -->
     <script>
-        // Identify user to Intercom
-        window.Intercom('boot', {
-            app_id: "itor2igq", // Replace with your actual APP_ID
-            user_id: "user_12345",
-            email: "sarah.chen@sneakervibe-demo.com",
-            name: "Sarah Chen",
-            created_at: 1634310000,
-            
-            // Custom attributes
-            total_orders: 5,
-            account_status: "active",
-            last_order_date: "2025-11-12"
-        });
+      (function(){
+        var w=window;
+        var ic=w.Intercom;
+        if(typeof ic==="function"){
+          ic('reattach_activator');
+          ic('update',w.intercomSettings);
+        }else{
+          var d=document;
+          var i=function(){i.c(arguments);};
+          i.q=[];
+          i.c=function(args){i.q.push(args);};
+          w.Intercom=i;
+          var l=function(){
+            var s=d.createElement('script');
+            s.type='text/javascript';
+            s.async=true;
+            s.src='https://js.intercomcdn.com/intercom.v1.js';
+            var x=d.getElementsByTagName('script')[0];
+            x.parentNode.insertBefore(s, x);
+          };
+          if(w.attachEvent){
+            w.attachEvent('onload',l);
+          }else{
+            w.addEventListener('load',l,false);
+          }
+        }
+      })();
+      
+      // Boot Intercom and identify user
+      window.Intercom('boot', {
+        app_id: "itor2igq",
+        user_id: "user_12345",
+        email: "sarah.chen@sneakervibe-demo.com",
+        name: "Sarah Chen",
+        created_at: 1634310000,
         
+        // Custom attributes
+        total_orders: 5,
+        account_status: "active",
+        last_order_date: "2025-11-12"
+      });
+    </script>
+    
+    <script>
         function cancelOrder(orderId) {
+            console.log('Cancel button clicked for:', orderId);
+            
             // Send event to Intercom
             window.Intercom('trackEvent', 'order_cancellation_requested', {
                 order_id: orderId,
@@ -377,12 +392,14 @@
         }
         
         function trackOrder(orderId) {
+            console.log('Track button clicked for:', orderId);
             window.Intercom('showNewMessage', 
                 `Where is my order ${orderId}?`
             );
         }
         
         function initiateReturn(orderId) {
+            console.log('Return button clicked for:', orderId);
             window.Intercom('showNewMessage', 
                 `I'd like to return order ${orderId}`
             );
@@ -393,6 +410,7 @@
         }
         
         function openIntercom() {
+            console.log('Opening Intercom...');
             window.Intercom('show');
         }
     </script>
