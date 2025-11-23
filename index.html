@@ -242,24 +242,9 @@
             margin-bottom: 15px;
             opacity: 0.9;
         }
-        
-        /* Debug indicator */
-        .debug-status {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            background: rgba(0,0,0,0.8);
-            color: white;
-            padding: 10px;
-            border-radius: 5px;
-            font-size: 12px;
-            z-index: 99999;
-        }
     </style>
 </head>
 <body>
-    <div id="debug-status" class="debug-status">Intercom: Loading...</div>
-    
     <div class="container">
         <div class="header">
             <div class="logo">👟 SneakerVibe</div>
@@ -347,62 +332,22 @@
     
     <!-- Intercom Messenger Code -->
     <script>
-        window.intercomSettings = {
-            api_base: "https://api-iam.intercom.io",
-            app_id: "itor2igq"
-        };
+      window.intercomSettings = {
+        api_base: "https://api-iam.intercom.io",
+        app_id: "itor2igq",
+        user_id: "user_12345",
+        name: "Sarah Chen",
+        email: "sarah.chen@sneakervibe-demo.com",
+        created_at: 1634310000
+      };
+    </script>
+    <script>
+      (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/itor2igq';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(document.readyState==='complete'){l();}else if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();
     </script>
     
     <script>
-    (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/itor2igq';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();
-    </script>
-    
-    <script>
-        // Wait for page to fully load
-        window.addEventListener('load', function() {
-            console.log('Page loaded, initializing Intercom...');
-            
-            // Update debug status
-            document.getElementById('debug-status').textContent = 'Intercom: Initializing...';
-            
-            // Give Intercom script time to load, then boot
-            setTimeout(function() {
-                if (window.Intercom) {
-                    window.Intercom('boot', {
-                        app_id: "itor2igq",
-                        user_id: "user_12345",
-                        email: "sarah.chen@sneakervibe-demo.com",
-                        name: "Sarah Chen",
-                        created_at: 1634310000,
-                        
-                        // Custom attributes
-                        total_orders: 5,
-                        account_status: "active",
-                        last_order_date: "2025-11-12"
-                    });
-                    
-                    console.log('Intercom booted successfully');
-                    document.getElementById('debug-status').textContent = 'Intercom: Ready ✓';
-                    
-                    // Hide debug after 3 seconds
-                    setTimeout(function() {
-                        document.getElementById('debug-status').style.display = 'none';
-                    }, 3000);
-                } else {
-                    console.error('Intercom not loaded');
-                    document.getElementById('debug-status').textContent = 'Intercom: Failed ✗';
-                    document.getElementById('debug-status').style.background = 'rgba(220, 53, 69, 0.9)';
-                }
-            }, 1000);
-        });
-        
         function cancelOrder(orderId) {
             console.log('Cancel button clicked for:', orderId);
-            
-            if (!window.Intercom) {
-                alert('Intercom is not loaded yet. Please wait a moment and try again.');
-                return;
-            }
             
             // Send event to Intercom
             window.Intercom('trackEvent', 'order_cancellation_requested', {
@@ -418,12 +363,6 @@
         
         function trackOrder(orderId) {
             console.log('Track button clicked for:', orderId);
-            
-            if (!window.Intercom) {
-                alert('Intercom is not loaded yet. Please wait a moment and try again.');
-                return;
-            }
-            
             window.Intercom('showNewMessage', 
                 `Where is my order ${orderId}?`
             );
@@ -431,12 +370,6 @@
         
         function initiateReturn(orderId) {
             console.log('Return button clicked for:', orderId);
-            
-            if (!window.Intercom) {
-                alert('Intercom is not loaded yet. Please wait a moment and try again.');
-                return;
-            }
-            
             window.Intercom('showNewMessage', 
                 `I'd like to return order ${orderId}`
             );
@@ -448,12 +381,6 @@
         
         function openIntercom() {
             console.log('Opening Intercom...');
-            
-            if (!window.Intercom) {
-                alert('Intercom is not loaded yet. Please wait a moment and try again.');
-                return;
-            }
-            
             window.Intercom('show');
         }
     </script>
