@@ -1,387 +1,164 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SneakerVibe - My Orders</title>
-    
+    <title>Registration and Sign-up Form</title>
+    <link rel="stylesheet" href="style.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .header {
-            background: white;
-            padding: 20px 30px;
-            border-radius: 10px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logo {
-            font-size: 28px;
-            font-weight: bold;
-            color: #667eea;
-        }
-        
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #667eea;
+        .popup-message {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #0078D4;
             color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-        
-        .orders-section {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        
-        h1 {
-            color: #333;
-            margin-bottom: 10px;
-        }
-        
-        .subtitle {
-            color: #666;
-            margin-bottom: 30px;
-        }
-        
-        .order-card {
-            border: 2px solid #e0e0e0;
+            padding: 16px;
             border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
-        }
-        
-        .order-card:hover {
-            border-color: #667eea;
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
-        }
-        
-        .order-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #e0e0e0;
-        }
-        
-        .order-number {
-            font-size: 18px;
-            font-weight: bold;
-            color: #333;
-        }
-        
-        .order-date {
-            color: #666;
-            font-size: 14px;
-        }
-        
-        .status-badge {
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 600;
-        }
-        
-        .status-processing {
-            background: #fff3cd;
-            color: #856404;
-        }
-        
-        .status-shipped {
-            background: #d1ecf1;
-            color: #0c5460;
-        }
-        
-        .status-delivered {
-            background: #d4edda;
-            color: #155724;
-        }
-        
-        .order-content {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 15px;
-        }
-        
-        .product-image {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-        
-        .product-details {
-            flex: 1;
-        }
-        
-        .product-name {
-            font-size: 16px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 8px;
-        }
-        
-        .product-info {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 4px;
-        }
-        
-        .order-total {
-            font-size: 18px;
-            font-weight: bold;
-            color: #667eea;
-            text-align: right;
-        }
-        
-        .order-actions {
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid #e0e0e0;
-        }
-        
-        .btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-primary {
-            background: #667eea;
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background: #5568d3;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
-        }
-        
-        .btn-secondary {
-            background: white;
-            color: #667eea;
-            border: 2px solid #667eea;
-        }
-        
-        .btn-secondary:hover {
-            background: #f8f9ff;
-        }
-        
-        .btn-danger {
-            background: #dc3545;
-            color: white;
-        }
-        
-        .btn-danger:hover {
-            background: #c82333;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
-        }
-        
-        .btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
-        .help-banner {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 30px;
-            text-align: center;
-        }
-        
-        .help-banner h3 {
-            margin-bottom: 10px;
-        }
-        
-        .help-banner p {
-            margin-bottom: 15px;
-            opacity: 0.9;
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+            z-index: 9999;
+            font-family: sans-serif;
         }
     </style>
+
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+      appId: "ee0a36ba-08ba-47d8-97d1-b800f388a57c",
+    });
+  });
+</script>
+    
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="logo">👟 SneakerVibe</div>
-            <div class="user-info">
-                <span>Welcome back, Sarah!</span>
-                <div class="user-avatar">SC</div>
-            </div>
-        </div>
-        
-        <div class="orders-section">
-            <h1>My Orders</h1>
-            <p class="subtitle">Track and manage your SneakerVibe orders</p>
-            
-            <!-- Recent Order - Can Cancel -->
-            <div class="order-card">
-                <div class="order-header">
-                    <div>
-                        <div class="order-number">Order #089</div>
-                        <div class="order-date">Placed on November 12, 2025</div>
-                    </div>
-                    <span class="status-badge status-processing">Processing</span>
-                </div>
-                
-                <div class="order-content">
-                    <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400" 
-                         alt="Nike Air Max 270" class="product-image">
-                    <div class="product-details">
-                        <div class="product-name">Nike Air Max 270 - Black</div>
-                        <div class="product-info">Size: 10 | Color: Black</div>
-                        <div class="product-info">Quantity: 1</div>
-                        <div class="product-info">Estimated Delivery: November 18, 2025</div>
-                    </div>
-                    <div class="order-total">$149.99</div>
-                </div>
-                
-                <div class="order-actions">
-                    <button class="btn btn-secondary" onclick="trackOrder('ORD-2025-11-089')">
-                        Track Order
-                    </button>
-                    <button class="btn btn-danger" onclick="cancelOrder('ORD-2025-11-089')">
-                        Cancel Order
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Delivered Order -->
-            <div class="order-card">
-                <div class="order-header">
-                    <div>
-                        <div class="order-number">Order #234</div>
-                        <div class="order-date">Placed on October 28, 2025</div>
-                    </div>
-                    <span class="status-badge status-delivered">Delivered</span>
-                </div>
-                
-                <div class="order-content">
-                    <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400" 
-                         alt="Adidas Stan Smith" class="product-image">
-                    <div class="product-details">
-                        <div class="product-name">Adidas Stan Smith - White</div>
-                        <div class="product-info">Size: 9 | Color: White</div>
-                        <div class="product-info">Quantity: 1</div>
-                        <div class="product-info">Delivered on November 5, 2025</div>
-                    </div>
-                    <div class="order-total">$89.99</div>
-                </div>
-                
-                <div class="order-actions">
-                    <button class="btn btn-secondary" onclick="initiateReturn('ORD-2025-10-234')">
-                        Return Item
-                    </button>
-                    <button class="btn btn-primary" onclick="writeReview('ORD-2025-10-234')">
-                        Write Review
-                    </button>
-                </div>
-            </div>
-            
-            <div class="help-banner">
-                <h3>Need Help? 💬</h3>
-                <p>Have questions about your order? Want to make changes? Our AI assistant is here 24/7!</p>
-                <button class="btn btn-primary" onclick="openIntercom()">Chat with Us</button>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Intercom Messenger Code -->
+    <form id="signup-form">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password">
+        <button type="submit">Sign up</button>
+    </form>
+
+    <button onclick="location.href='login.html'">Already have an account? Log in</button>
+    <button onclick="redirectToExternalSite()">Visit abcsrishtikakkar.net</button>
+
+<script>
+    let engage, engageReady = false;
+    const INACTIVITY_LIMIT = 45000;
+    let inactivityTimer;
+
+    const initEngage = async () => {
+        const settings = {
+            clientKey: "27a3a79edb7d1ed1786fee1ce8235e2b",
+            targetURL: "https://api-engage-us.sitecorecloud.io",
+            pointOfSale: "srishti_test",
+            cookieDomain: "srishtikakkar.github.io",
+            webPersonalization: true
+        };
+        engage = await window.Engage.init(settings);
+        engageReady = true;
+        engage.pageView({
+            channel: "WEB",
+            language: "EN",
+            currency: "USD",
+            page: window.location.pathname,
+            pointOfSale: settings.pointOfSale
+        });
+    };
+
+    const triggerWebExperience = () => {
+        if (!engageReady) return;
+        engage.personalize({
+            friendlyId: "page_lingering_alert_bar", // your web experience ID
+            pointOfSale: "srishti_test",
+            channel: "WEB",
+            currency: "USD"
+        });
+    };
+
+    const resetInactivity = () => {
+        clearTimeout(inactivityTimer);
+        inactivityTimer = setTimeout(triggerWebExperience, INACTIVITY_LIMIT);
+    };
+
+    // Setup
+    const setupInactivityTracking = () => {
+        document.addEventListener("mousemove", resetInactivity);
+        document.addEventListener("keydown", resetInactivity);
+        document.addEventListener("scroll", resetInactivity);
+        resetInactivity(); // Start initial timer
+    };
+
+    // Load Engage and start everything
+    const engageScript = document.createElement("script");
+    engageScript.src = "https://d1mj578wat5n4o.cloudfront.net/sitecore-engage-v.1.4.2.min.js";
+    engageScript.onload = () => {
+        initEngage().then(() => {
+            setupInactivityTracking();
+        });
+    };
+    document.head.appendChild(engageScript);
+</script>
+
+
+    <!-- Signup Form Logic -->
     <script>
-      window.intercomSettings = {
-        api_base: "https://api-iam.intercom.io",
-        app_id: "itor2igq",
-        user_id: "user_12345",
-        name: "Sarah Chen",
-        email: "sarah.chen@sneakervibe-demo.com",
-        created_at: 1634310000
-      };
-    </script>
-    <script>
-      (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/itor2igq';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(document.readyState==='complete'){l();}else if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();
-    </script>
-    
-    <script>
-        function cancelOrder(orderId) {
-            console.log('Cancel button clicked for:', orderId);
-            
-            // Send event to Intercom
-            window.Intercom('trackEvent', 'order_cancellation_requested', {
-                order_id: orderId,
-                initiated_from: 'orders_page'
-            });
-            
-            // Open Messenger with pre-filled message
-            window.Intercom('showNewMessage', 
-                `I'd like to cancel my order ${orderId}`
-            );
-        }
-        
-        function trackOrder(orderId) {
-            console.log('Track button clicked for:', orderId);
-            window.Intercom('showNewMessage', 
-                `Where is my order ${orderId}?`
-            );
-        }
-        
-        function initiateReturn(orderId) {
-            console.log('Return button clicked for:', orderId);
-            window.Intercom('showNewMessage', 
-                `I'd like to return order ${orderId}`
-            );
-        }
-        
-        function writeReview(orderId) {
-            alert('Review feature coming soon!');
-        }
-        
-        function openIntercom() {
-            console.log('Opening Intercom...');
-            window.Intercom('show');
+        const form = document.querySelector('#signup-form');
+
+        form.addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const name = document.querySelector('#name').value;
+            const email = document.querySelector('#email').value;
+            const password = document.querySelector('#password').value;
+
+            if (name === '' || email === '' || password === '') {
+                alert('Please fill in all the fields');
+                return;
+            }
+
+            const userId = Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
+            localStorage.setItem('userId', userId);
+            localStorage.setItem('email', email);
+            localStorage.setItem('password', password);
+
+            if (engageReady && engage) {
+                await engage.identity({
+                    identifiers: [{ provider: "email", id: email }],
+                    properties: { name: name }
+                });
+
+                const eventData = {
+                    channel: "WEB",
+                    currency: "USD",
+                    language: "EN",
+                    pointOfSale: "srishti_test",
+                    page: window.location.pathname
+                };
+
+                const eventExtensionData = {
+                    form_id: "signup-form",
+                    form_name: "User Registration Form",
+                    button_name: "Sign up"
+                };
+
+                await engage.event("signup_completed", eventData, eventExtensionData);
+            }
+
+            localStorage.setItem("justSignedUp", "true");
+
+            // Redirect after 3 minutes
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 180000);
+        });
+
+        function redirectToExternalSite() {
+            const anonymousId = localStorage.getItem("userId") || "unknown";
+            const queryString = `ajs_aid=${anonymousId}`;
+            const url = `http://abcsrishtikakkar.net/?${queryString}`;
+            window.open(url, '_blank');
         }
     </script>
 </body>
